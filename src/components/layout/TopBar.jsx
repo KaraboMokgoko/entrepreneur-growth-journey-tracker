@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut, HelpCircle } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { ROLE_LABELS, ROLE_COLORS } from "@/lib/roles";
 
-export default function TopBar({ onToggleSidebar, collapsed }) {
+export default function TopBar({ onToggleSidebar, collapsed, onOpenTutorial }) {
   const { user, logout } = useAuth();
   const role = user?.role || "user";
 
@@ -22,6 +22,9 @@ export default function TopBar({ onToggleSidebar, collapsed }) {
         </div>
       </div>
       <div className="ml-auto flex items-center gap-3">
+        <Button variant="ghost" size="icon" onClick={onOpenTutorial} aria-label="Open tutorial" title="App tutorial" className="shrink-0">
+          <HelpCircle className="w-5 h-5" />
+        </Button>
         <div className="text-right hidden sm:block">
           <p className="text-sm font-medium leading-tight truncate max-w-[160px]">{user?.full_name || user?.email || "User"}</p>
           <span className={`inline-block text-[10px] font-medium px-2 py-0.5 rounded-full ${ROLE_COLORS[role] || ""}`}>
