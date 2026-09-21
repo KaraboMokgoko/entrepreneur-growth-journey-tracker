@@ -4,12 +4,19 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UserPlus, Mail, Lock, Loader2 } from "lucide-react";
+import { UserPlus, Mail, Lock, Loader2, Store, Briefcase, GraduationCap, Landmark, Check } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
 import { safeReturnTo } from "@/lib/authReturnTo";
+
+const SIGNUP_ROLES = [
+  { value: "entrepreneur", label: "Entrepreneur", description: "I own or run an enterprise and want to track its growth.", icon: Store },
+  { value: "practitioner", label: "Practitioner", description: "I support enterprises with diagnostics and development plans.", icon: Briefcase },
+  { value: "mentor", label: "Mentor", description: "I guide enterprises through mentorship sessions.", icon: GraduationCap },
+  { value: "funder", label: "Funder", description: "I review cohort progress and readiness for funding.", icon: Landmark },
+];
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -19,6 +26,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [otpCode, setOtpCode] = useState("");
+  const [role, setRole] = useState("entrepreneur");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +53,11 @@ export default function Register() {
       const result = await base44.auth.verifyOtp({ email, otpCode });
       if (result?.access_token) {
         base44.auth.setToken(result.access_token);
+      }
+      try {
+        await base44.functions.invoke("setUserRole", { role });
+      } catch (roleErr) {
+        console.error("Failed to set role", roleErr);
       }
       window.location.href = safeReturnTo();
     } catch (err) {
@@ -214,6 +227,32 @@ export default function Register() {
               className="pl-10 h-12"
               required
             />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label>I am a...</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {SIGNUP_ROLES.map((r) => {
+              const RoleIcon = r.icon;
+              const selected = role === r.value;
+              return (
+                <button
+                  key={r.value}
+                  type="button"
+                  onClick={() => setRole(r.value)}
+                  className={`rounded-lg border p-3 text-left transition-colors ${
+                    selected ? "border-teal-600 bg-teal-50" : "border-border hover:bg-muted"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <RoleIcon className={`h-4 w-4 ${selected ? "text-teal-700" : "text-muted-foreground"}`} />
+                    <span className="text-sm font-medium">{r.label}</span>
+                    {selected && <Check className="ml-auto h-3 w-3 text-teal-700" />}
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{r.description}</p>
+                </button>
+              );
+            })}
           </div>
         </div>
         <Button type="submit" className="w-full h-12 font-medium" disabled={loading}>

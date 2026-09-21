@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {
   BarChart3, Building2, ClipboardList, ListChecks, Handshake, Flag,
-  Users, ShieldCheck, UserCog, Settings, LayoutDashboard,
+  Users, ShieldCheck, UserCog, Settings, LayoutDashboard, BookOpen,
 } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { NAV_BY_ROLE, ROLE_LABELS, ROLE_COLORS } from "@/lib/roles";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const ICONS = {
   BarChart3, Building2, ClipboardList, ListChecks, Handshake, Flag,
-  Users, ShieldCheck, UserCog, Settings, LayoutDashboard,
+  Users, ShieldCheck, UserCog, Settings, LayoutDashboard, BookOpen,
 };
 
 export default function Sidebar({ open, onClose, collapsed, isMobile }) {

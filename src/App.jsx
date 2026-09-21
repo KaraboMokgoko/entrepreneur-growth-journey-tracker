@@ -32,6 +32,7 @@ import Mentorship from "@/pages/Mentorship";
 import Readiness from "@/pages/Readiness";
 import Users from "@/pages/Users";
 import Settings from "@/pages/Settings";
+import UserGuide from "@/pages/UserGuide";
 
 function RoleHome() {
   const { user } = useAuth();
@@ -69,6 +70,7 @@ function App() {
                   <Route path="/readiness" element={<RequireRole allowedRoles={["admin", "practitioner", "mentor", "entrepreneur"]}><Readiness /></RequireRole>} />
                   <Route path="/users" element={<RequireRole allowedRoles={["admin"]}><Users /></RequireRole>} />
                   <Route path="/settings" element={<RequireRole allowedRoles={["admin"]}><Settings /></RequireRole>} />
+                  <Route path="/guide" element={<RequireRole allowedRoles={["admin"]}><UserGuide /></RequireRole>} />
                 </Route>
               </Route>
 

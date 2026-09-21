@@ -32,6 +32,7 @@ export const NAV_BY_ROLE = {
     { to: "/readiness", label: "Readiness", icon: "ShieldCheck" },
     { to: "/users", label: "Users", icon: "UserCog" },
     { to: "/settings", label: "Settings", icon: "Settings" },
+    { to: "/guide", label: "User Guide", icon: "BookOpen" },
   ],
   practitioner: [
     { to: "/cohort", label: "Dashboard", icon: "BarChart3" },
