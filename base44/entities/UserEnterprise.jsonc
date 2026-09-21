@@ -1,0 +1,85 @@
+{
+  "name": "UserEnterprise",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "title": "User"
+    },
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "access_level": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "practitioner",
+        "mentor",
+        "viewer"
+      ],
+      "title": "Access level",
+      "default": "viewer"
+    }
+  },
+  "required": [
+    "user_id",
+    "enterprise_id",
+    "access_level"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

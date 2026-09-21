@@ -1,0 +1,96 @@
+{
+  "name": "Intervention",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "provider": {
+      "type": "string",
+      "title": "Provider"
+    },
+    "intervention_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+    },
+    "purpose": {
+      "type": "string",
+      "title": "Purpose"
+    },
+    "outcome": {
+      "type": "string",
+      "title": "Outcome"
+    },
+    "intervention_type": {
+      "type": "string",
+      "enum": [
+        "Training",
+        "Mentorship",
+        "Funding",
+        "Compliance",
+        "Market access",
+        "Other"
+      ],
+      "title": "Type",
+      "default": "Training"
+    }
+  },
+  "required": [
+    "enterprise_id",
+    "provider"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

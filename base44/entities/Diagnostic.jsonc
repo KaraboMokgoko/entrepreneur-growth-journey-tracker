@@ -1,0 +1,169 @@
+{
+  "name": "Diagnostic",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "assessor_id": {
+      "type": "string",
+      "title": "Assessor"
+    },
+    "assessment_type": {
+      "type": "string",
+      "enum": [
+        "baseline",
+        "reassessment"
+      ],
+      "title": "Assessment type",
+      "default": "baseline"
+    },
+    "assessment_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Assessment date"
+    },
+    "scores": {
+      "type": "object",
+      "title": "Scores",
+      "properties": {
+        "strategy_business_model": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "finance": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "operations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "compliance": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "sales_marketing": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "people": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "digital_readiness": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "procurement_readiness": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "funding_readiness": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "market_access": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "overall_score": {
+      "type": "number",
+      "title": "Overall score"
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Strengths"
+    },
+    "priority_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Priority gaps"
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Recommended actions"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "enterprise_id",
+    "assessment_type"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

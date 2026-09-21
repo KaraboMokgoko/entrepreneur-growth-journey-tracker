@@ -1,62 +1,48 @@
-# Base44 Project
+# Entrepreneur Growth Journey Tracker
 
-Use this repository to run and edit the app locally, then publish changes back through Base44.
+A growth-tracking platform for small businesses, built for Simply Complex Africa's ICT Hackathon 2026 (Challenge 05). It diagnoses an enterprise, creates a development plan, records interventions and milestones, measures funding/procurement readiness, and shows progress over time.
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+> **Platform note:** This app is built on the **Base44** platform. The original brief specified Supabase + TypeScript + custom Supabase Auth. Because Base44 provides its own backend (entities), its own authentication, and uses JavaScript/JSX, the architecture was adapted:
+>
+> - **Database** → Base44 entities (JSON schemas) with per-entity Row-Level Security replacing SQL RLS policies.
+> - **Auth** → platform-managed auth (email/password + Google). The builder is the admin. Additional roles are created by inviting users from the **Users** page and assigning a role.
+> - **TypeScript** → JavaScript/JSX (Vite + React).
+> - Everything else (Recharts, Lucide, react-hook-form, date-fns, sonner, shadcn/ui) is used as specified.
+>
+> The full product concept, data model, role-based access, 10-dimension scoring engine, modules and dashboards are intact.
 
-## Prerequisites
+## Features
 
-1. Clone the repository using the project's Git URL.
-2. Navigate to the project directory.
-3. Install dependencies: `npm install`.
-4. Install the Base44 CLI: `npm install -g base44@latest`.
-5. Install [Deno](https://docs.deno.com/runtime/getting_started/installation/) — the local Base44 backend runs on it.
+- **Role-based access** (admin, practitioner, mentor, entrepreneur, funder) enforced via route guards, sidebar visibility and per-entity RLS.
+- **Hamburger menu** layout: overlay drawer on mobile, collapsible icon rail on desktop.
+- **Enterprises** with full profile, health gauge and 8 tabs (Overview, Diagnostics, Development Plan, Interventions, Milestones, Mentorship, Readiness, Growth).
+- **Diagnostics**: 10-dimension 1–5 scoring with auto-generated strengths, priority gaps and recommended actions; baseline + reassessment with growth deltas.
+- **Development Plan**: action table with filters, inline status, and "Generate actions from diagnostic".
+- **Milestones**: list and Kanban views with status moves that persist.
+- **Interventions**: timeline grouped by month.
+- **Mentorship**: session cards with follow-ups (mentor/admin can record).
+- **Readiness**: compliance table, funding and procurement checklists with progress bars and plain-language score explanations.
+- **Dashboards**: per-enterprise hero dashboard (radar, trend, KPIs, gaps) and a cohort dashboard (sector/stage/revenue charts, readiness heatmap, anonymized for funders).
+- **Users** (admin): invite users and assign roles.
+- **Settings** (admin): edit profile, reset demo data.
 
-Run `base44 --help` (or see the [CLI reference](https://docs.base44.com/developers/references/cli/commands/introduction)) for the full command surface.
+## Tech stack
 
-## Run Locally
+React + Vite, Tailwind CSS, shadcn/ui, React Router v6, Recharts, Lucide, date-fns, sonner, Base44 entities + auth.
 
-Three commands, from the project root:
+## Roles & access matrix
 
-```bash
-base44 login   # one-time per machine
-base44 link    # one-time per clone
-base44 dev     # local backend + frontend together
-```
+| Capability | Admin | Practitioner | Mentor | Entrepreneur | Funder |
+|---|---|---|---|---|---|
+| See all enterprises | Yes | Assigned | Assigned | Own only | No (anonymized) |
+| Create/edit enterprises | Yes | Yes | No | Profile only | No |
+| Diagnostics, actions, interventions, milestones, readiness | All | Assigned | View | Own (status updates) | No |
+| Mentorship sessions | All | View | Create/edit (assigned) | View own | No |
+| Users management | Yes | No | No | No | No |
+| Cohort dashboard | Real names | Real names | — | — | Anonymized |
 
-Open the frontend URL that `base44 dev` prints (typically `http://localhost:5173`).
+> On Base44, the signed-in builder is the admin. To exercise other roles, invite users from **Users** (e.g. `practitioner@...`, `mentor@...`) and set their role; they will see the role-appropriate sidebar and landing page.
 
-Notes:
+## Resetting demo data
 
-- **Every fresh clone needs `base44 link`.** It writes `base44/.app.jsonc` (the app-id pointer), which is deliberately gitignored. Your app id is in the Builder URL (`app.base44.com/apps/<id>/...`); `base44 link --help` shows the non-interactive flags.
-- **`base44 dev` runs the frontend for you** (via `site.serveCommand` in this repo's `base44/config.jsonc`) — never run `npm run dev` yourself: alone it serves a UI with no backend behind it (`[base44] Proxy not enabled`, every `/api` call fails), and alongside `base44 dev` the second Vite silently takes the next port and you end up looking at the wrong one.
-- **The app must be published at least once for the UI to load under `base44 dev`.** The frontend boots by fetching app settings from the hosted app; before the first publish that fails and every page redirects to login. The local API works regardless.
-- Entities, functions, and auth run locally — entity data is **in-memory only**, wiped when `base44 dev` restarts. Everything else (Core integrations, OAuth login) is forwarded to your deployed app. Full breakdown: [Local development overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview).
-
-## Frontend Only, Hosted Backend
-
-To work on just the frontend against your app's live hosted backend:
-
-```bash
-base44 dev --remote
-```
-
-⚠️ In this mode writes go to your app's **production data** — plain `base44 dev` keeps everything local.
-
-## Publish Your Changes
-
-After pushing your changes to git, open the Base44 dashboard and publish the app:
-
-```bash
-base44 dashboard open
-```
-
-This repo syncs to Base44 through git, so publish from the dashboard rather than `base44 deploy` — a CLI deploy ships your local tree directly, bypassing the sync, and the deployed state silently diverges from the repo.
-
-## Docs & Support
-
-GitHub integration: [https://docs.base44.com/developers/app-code/local-development/github](https://docs.base44.com/developers/app-code/local-development/github)
-
-Local development: [https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview)
-
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+Admin → **Settings → Reset demo data** re-seeds a cohort of 6 enterprises with diagnostics, reassessments, actions, milestones, interventions, mentorship sessions, compliance records and readiness assessments (all dated relative to today, so charts stay populated).

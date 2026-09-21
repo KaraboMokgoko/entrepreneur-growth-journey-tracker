@@ -1,0 +1,113 @@
+{
+  "name": "FundingReadiness",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "assessment_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Assessment date"
+    },
+    "checklist": {
+      "type": "object",
+      "title": "Checklist",
+      "properties": {
+        "business_plan": {
+          "type": "boolean"
+        },
+        "financial_statements": {
+          "type": "boolean"
+        },
+        "bank_statements": {
+          "type": "boolean"
+        },
+        "tax_clearance": {
+          "type": "boolean"
+        },
+        "cipc_documents": {
+          "type": "boolean"
+        },
+        "id_documents": {
+          "type": "boolean"
+        },
+        "pitch_deck": {
+          "type": "boolean"
+        },
+        "collateral": {
+          "type": "boolean"
+        },
+        "credit_record": {
+          "type": "boolean"
+        }
+      }
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "title": "Score"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "enterprise_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

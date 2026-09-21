@@ -1,0 +1,103 @@
+{
+  "name": "Milestone",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "target_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Target date"
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Completed date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "In progress",
+        "Completed",
+        "Overdue"
+      ],
+      "title": "Status",
+      "default": "Pending"
+    },
+    "evidence": {
+      "type": "string",
+      "title": "Evidence"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category"
+    }
+  },
+  "required": [
+    "enterprise_id",
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

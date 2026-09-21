@@ -1,0 +1,94 @@
+{
+  "name": "ComplianceRecord",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "item": {
+      "type": "string",
+      "title": "Item"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Valid",
+        "Expired",
+        "Pending",
+        "Not started"
+      ],
+      "title": "Status",
+      "default": "Not started"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Expiry date"
+    },
+    "evidence": {
+      "type": "string",
+      "title": "Evidence"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "enterprise_id",
+    "item"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

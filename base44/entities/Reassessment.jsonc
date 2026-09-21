@@ -1,0 +1,106 @@
+{
+  "name": "Reassessment",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "baseline_diagnostic_id": {
+      "type": "string",
+      "title": "Baseline diagnostic"
+    },
+    "reassessment_diagnostic_id": {
+      "type": "string",
+      "title": "Reassessment diagnostic"
+    },
+    "reassessment_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Reassessment date"
+    },
+    "revenue_band_before": {
+      "type": "string",
+      "title": "Revenue band before"
+    },
+    "revenue_band_after": {
+      "type": "string",
+      "title": "Revenue band after"
+    },
+    "employees_before": {
+      "type": "integer",
+      "title": "Employees before"
+    },
+    "employees_after": {
+      "type": "integer",
+      "title": "Employees after"
+    },
+    "overall_score_before": {
+      "type": "number",
+      "title": "Score before"
+    },
+    "overall_score_after": {
+      "type": "number",
+      "title": "Score after"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "enterprise_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

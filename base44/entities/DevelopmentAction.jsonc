@@ -1,0 +1,124 @@
+{
+  "name": "DevelopmentAction",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "diagnostic_id": {
+      "type": "string",
+      "title": "Diagnostic"
+    },
+    "description": {
+      "type": "string",
+      "title": "Action"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "strategy_business_model",
+        "finance",
+        "operations",
+        "compliance",
+        "sales_marketing",
+        "people",
+        "digital_readiness",
+        "procurement_readiness",
+        "funding_readiness",
+        "market_access"
+      ],
+      "title": "Category"
+    },
+    "owner": {
+      "type": "string",
+      "title": "Owner"
+    },
+    "target_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Target date"
+    },
+    "evidence": {
+      "type": "string",
+      "title": "Evidence"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Not started",
+        "In progress",
+        "Completed",
+        "Blocked"
+      ],
+      "title": "Status",
+      "default": "Not started"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "title": "Priority",
+      "default": "Medium"
+    }
+  },
+  "required": [
+    "enterprise_id",
+    "description"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

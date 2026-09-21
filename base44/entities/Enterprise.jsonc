@@ -1,0 +1,177 @@
+{
+  "name": "Enterprise",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Business name"
+    },
+    "trading_name": {
+      "type": "string",
+      "title": "Trading name"
+    },
+    "founder_name": {
+      "type": "string",
+      "title": "Founder name"
+    },
+    "founder_email": {
+      "type": "string",
+      "format": "email",
+      "title": "Founder email"
+    },
+    "founder_phone": {
+      "type": "string",
+      "title": "Founder phone"
+    },
+    "sector": {
+      "type": "string",
+      "enum": [
+        "Agriculture",
+        "Retail",
+        "Technology"
+      ],
+      "title": "Sector"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "Idea",
+        "Startup",
+        "Growth",
+        "Established"
+      ],
+      "title": "Stage",
+      "default": "Startup"
+    },
+    "employee_count": {
+      "type": "integer",
+      "title": "Employees",
+      "default": 0
+    },
+    "revenue_band": {
+      "type": "string",
+      "enum": [
+        "Pre-revenue",
+        "R0-R100k",
+        "R100k-R500k",
+        "R500k-R1M",
+        "R1M-R5M",
+        "R5M+"
+      ],
+      "title": "Revenue band",
+      "default": "Pre-revenue"
+    },
+    "registration_number": {
+      "type": "string",
+      "title": "Registration number"
+    },
+    "registration_status": {
+      "type": "string",
+      "enum": [
+        "Registered",
+        "Pending",
+        "Not registered"
+      ],
+      "title": "Registration status",
+      "default": "Not registered"
+    },
+    "compliance_status": {
+      "type": "string",
+      "enum": [
+        "Compliant",
+        "Partially compliant",
+        "Non-compliant"
+      ],
+      "title": "Compliance status",
+      "default": "Non-compliant"
+    },
+    "market_information": {
+      "type": "string",
+      "title": "Market information"
+    },
+    "province": {
+      "type": "string",
+      "title": "Province"
+    },
+    "contact_email": {
+      "type": "string",
+      "format": "email",
+      "title": "Contact email"
+    },
+    "contact_phone": {
+      "type": "string",
+      "title": "Contact phone"
+    },
+    "assigned_user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Assigned user ids"
+    }
+  },
+  "required": [
+    "name",
+    "sector"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.assigned_user_ids": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "user"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "name": "ProcurementReadiness",
+  "type": "object",
+  "properties": {
+    "enterprise_id": {
+      "type": "string",
+      "title": "Enterprise"
+    },
+    "assessment_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Assessment date"
+    },
+    "checklist": {
+      "type": "object",
+      "title": "Checklist",
+      "properties": {
+        "cipc_registration": {
+          "type": "boolean"
+        },
+        "tax_compliance": {
+          "type": "boolean"
+        },
+        "bbbee_certificate": {
+          "type": "boolean"
+        },
+        "bank_confirmation": {
+          "type": "boolean"
+        },
+        "insurance": {
+          "type": "boolean"
+        },
+        "capability_statement": {
+          "type": "boolean"
+        },
+        "references": {
+          "type": "boolean"
+        },
+        "pricing_schedule": {
+          "type": "boolean"
+        },
+        "csd_registration": {
+          "type": "boolean"
+        }
+      }
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "title": "Score"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "enterprise_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
