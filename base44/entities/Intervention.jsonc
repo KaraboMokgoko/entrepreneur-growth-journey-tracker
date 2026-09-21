@@ -51,6 +51,19 @@
           "user_condition": {
             "role": "admin"
           }
+        },
+        {
+          "user_condition": {
+            "role": "practitioner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "mentor"
+          }
+        },
+        {
+          "data.enterprise_id": "{{user.data.enterprise_id}}"
         }
       ]
     },

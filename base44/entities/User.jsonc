@@ -7,6 +7,10 @@
         "admin",
         "user"
       ]
+    },
+    "enterprise_id": {
+      "type": "string",
+      "description": "The enterprise this user belongs to (for entrepreneurs)"
     }
   },
   "required": [
