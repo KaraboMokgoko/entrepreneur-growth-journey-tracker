@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import TopBar from "@/components/layout/TopBar";
 import Sidebar from "@/components/layout/Sidebar";
 import AppTutorial from "@/components/tutorial/AppTutorial";
+import VentureAIChat from "@/components/ventureai/VentureAIChat";
 import { useAuth } from "@/lib/AuthContext";
 
 const COLLAPSE_KEY = "egjt.sidebar.collapsed";
@@ -68,6 +69,7 @@ export default function AppLayout() {
         </main>
       </div>
       <AppTutorial open={tutorialOpen} onClose={closeTutorial} />
+      <VentureAIChat />
     </div>
   );
 }
